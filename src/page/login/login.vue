@@ -20,6 +20,8 @@
 </template>
 
 <script>
+    import { Toast } from 'mint-ui'
+    import { mobileValidate, pwdValidate } from '@/js/common'
     export default {
         name: 'login',
         data() {
@@ -30,19 +32,21 @@
             }
         },
         components: {
-            
+
         },
         methods: {
-            validate:function () {
-                if (!zjzm.mobileValidate(this.mobile)) {
-                    mui.toast("手机号格式错误");
-                } else if (!zjzm.pwdValidate(this.password)) {
-                    mui.toast("密码格式错误");
+            validate () {
+                if (!this.mobile) {
+                    Toast("请输入手机号");
+                } else if (mobileValidate(this.mobile)) {
+                    Toast("手机号格式错误");
+                } else if (!pwdValidate(this.password)) {
+                    Toast("密码格式错误");
                 } else {
                     this.submit();
                 }
             },
-            submit:function () {
+            submit () {
                 var _this = this;
                 axios({
                     method: 'post',
@@ -65,19 +69,19 @@
                         });
                         _this.goto("/tpl/product/list.html");
                     } else {
-                        mui.toast(datas.resultMsg);
+                        Toast(datas.resultMsg);
                     }
                 }).catch(function (error) {
-                    mui.toast(error);
+                    Toast(error);
                 });
             },
-            seePwd:function () {
+            seePwd () {
                 this.flag = !(this.flag);
             },
-            goto:function (url) {
+            goto (url) {
                 myOpenWindow(url, "");
             },
-            changePwd:function () {
+            changePwd () {
                 mySetLocalStorage("lastAddress", "/tpl/login/login.html");//表示从我的页面点击修改密码进入
                 this.goto('/tpl/loginPwd/find-pwd.html');
             }

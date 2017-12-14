@@ -6,7 +6,7 @@ import Pwd from '../page/login/pwd'
 //路由配置 -- 路由嵌套
 export default [
     {
-        path: '/login',
+        path: '/',
         name: 'login',
         component: Login
         // children: [     // 子路由
