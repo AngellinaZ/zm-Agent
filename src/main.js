@@ -6,7 +6,7 @@ import mint from 'mint-ui'            // 基于 Vue.js 的移动端组件库
 import axios from 'axios'            
 import routes from './router/router'  // 路由
 import App from './App'               // 入口页面
-import './config/rem'                 // rem 
+import './config/rem'                 
 import './style/common.less'
 import 'mint-ui/lib/style.css'
 
@@ -24,7 +24,7 @@ const router = new VueRouter({
     routes
 }) 
 
-// 2.创建和挂载根实例 注意：id = 'app'的根页面是哪一个, 选择哪个页面作为根实例
+// 2.创建和挂载根实例 
 new Vue({
     router,
     template: '<App/>',

@@ -12,9 +12,9 @@ module.exports = {
     // rev 不要改成./
     assetsPublicPath: '/',
     // 配置接口代理
-    proxyTble: {
+    proxyTable: {
         '/api': {   
-            target: 'http://service.zjzmjr.com', // 你接口的域名 http://prod.model.zjzmjr.com
+            target: 'http://prod.model.zjzmjr.com', // 你接口的域名 http://service.zjzmjr.com
             changeOrigin: true, //是否跨域
             pathRewrite: {
                 '^/api': ''

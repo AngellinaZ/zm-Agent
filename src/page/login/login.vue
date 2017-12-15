@@ -12,8 +12,8 @@
         </div>
         <div class='module'>
             <div class='login-href'>
-                <router-link to="/reg">注册账号</router-link>
-                <router-link to="/pwd">忘记密码</router-link>
+                <router-link to='/reg'>注册账号</router-link>
+                <router-link to='/pwd'>忘记密码</router-link>
             </div>
         </div>
     </div>
@@ -37,27 +37,17 @@
         methods: {
             validate () {
                 if (!this.mobile) {
-                    Toast("请输入手机号");
+                    Toast('请输入手机号');
                 } else if (!mobileValidate(this.mobile)) {
-                    Toast("手机号格式错误");
+                    Toast('手机号格式错误');
                 } else if (!pwdValidate(this.password)) {
-                    Toast("密码格式错误");
+                    Toast('密码格式错误');
                 } else {
                     this.submit();
                 }
             },
             submit () {
-                var _this = this;
-                // this.$http.post('/user', {
-                //     username : this.mobile,
-                //     password : this.password
-                // })
-                // .then(function (response) {
-                //     console.log(response);
-                // })
-                // .catch(function (error) {
-                //     console.log(error);
-                // });
+                var that = this;
                 this.$http({
                     method: 'post',
                     url: this.HOST + '/yztz_user_login_check.htm',
@@ -77,7 +67,7 @@
                         //     "realName"      : datas.realName,
                         //     "status"        : datas.status
                         // });
-                        // _this.goto("/tpl/product/list.html");
+                        // that.goto("/tpl/product/list.html");
                     } else {
                         Toast(datas.resultMsg);
                     }
@@ -87,13 +77,6 @@
             },
             seePwd () {
                 this.flag = !(this.flag);
-            },
-            goto (url) {
-                myOpenWindow(url, "");
-            },
-            changePwd () {
-                // mySetLocalStorage("lastAddress", "/tpl/login/login.html");//表示从我的页面点击修改密码进入
-                // this.goto('/tpl/loginPwd/find-pwd.html');
             }
         },
         created(){
