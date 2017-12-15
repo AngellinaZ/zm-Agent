@@ -38,7 +38,7 @@
             validate () {
                 if (!this.mobile) {
                     Toast("请输入手机号");
-                } else if (mobileValidate(this.mobile)) {
+                } else if (!mobileValidate(this.mobile)) {
                     Toast("手机号格式错误");
                 } else if (!pwdValidate(this.password)) {
                     Toast("密码格式错误");
@@ -48,9 +48,19 @@
             },
             submit () {
                 var _this = this;
-                axios({
+                // this.$http.post('/user', {
+                //     username : this.mobile,
+                //     password : this.password
+                // })
+                // .then(function (response) {
+                //     console.log(response);
+                // })
+                // .catch(function (error) {
+                //     console.log(error);
+                // });
+                this.$http({
                     method: 'post',
-                    url: global.apiURL + '/yztz_user_login_check.htm',
+                    url: this.HOST + '/yztz_user_login_check.htm',
                     params: {
                         username : this.mobile,
                         password : this.password
@@ -58,16 +68,16 @@
                 }).then(function (response) {
                     var datas = response.data;
                     if (datas.success) {
-                        mySetLocalStorage("user", {
-                            "mobile"        : datas.userName,
-                            "springtoken"   : datas.springtoken,
-                            "authorityId"   : datas.authorityId,
-                            "idCard"        : datas.idCard,
-                            "currDate"      : datas.currDate,
-                            "realName"      : datas.realName,
-                            "status"        : datas.status
-                        });
-                        _this.goto("/tpl/product/list.html");
+                        // mySetLocalStorage("user", {
+                        //     "mobile"        : datas.userName,
+                        //     "springtoken"   : datas.springtoken,
+                        //     "authorityId"   : datas.authorityId,
+                        //     "idCard"        : datas.idCard,
+                        //     "currDate"      : datas.currDate,
+                        //     "realName"      : datas.realName,
+                        //     "status"        : datas.status
+                        // });
+                        // _this.goto("/tpl/product/list.html");
                     } else {
                         Toast(datas.resultMsg);
                     }
@@ -82,12 +92,14 @@
                 myOpenWindow(url, "");
             },
             changePwd () {
-                mySetLocalStorage("lastAddress", "/tpl/login/login.html");//表示从我的页面点击修改密码进入
-                this.goto('/tpl/loginPwd/find-pwd.html');
+                // mySetLocalStorage("lastAddress", "/tpl/login/login.html");//表示从我的页面点击修改密码进入
+                // this.goto('/tpl/loginPwd/find-pwd.html');
             }
         },
         created(){
-            
+            // this.$api.get('topics', null, r => {
+            //   console.log(r)
+            // })
         }
     }
 </script>

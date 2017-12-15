@@ -18,15 +18,15 @@
     //         return true;
     //     }
     // },
-    // // 验证密码
-    // pwdValidate (pwd) {
-    //     var pwdReg = /^([0-9a-zA-Z_]|[~!@#$%^&*\(\)\_\+\=\{\}\[\]\?\/\,\.]){6,20}$/;
-    //     if (!pwdReg.test(pwd)) {
-    //         return false;
-    //     } else {
-    //         return true;
-    //     }
-    // },
+    // 验证密码
+    function pwdValidate (pwd) {
+        var pwdReg = /^([0-9a-zA-Z_]|[~!@#$%^&*\(\)\_\+\=\{\}\[\]\?\/\,\.]){6,20}$/;
+        if (!pwdReg.test(pwd)) {
+            return false;
+        } else {
+            return true;
+        }
+    }
     // // 验证card
     // pwdValidate (pwd) {
     //     var cardReg = /(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/;
@@ -38,4 +38,7 @@
     // }
 // }
 
-export { mobileValidate }
+export { 
+    mobileValidate, 
+    pwdValidate 
+}

@@ -8,6 +8,7 @@ function resolve (dir) {
   return path.join(__dirname, '..', dir)
 }
 
+// 严格规范代码(空格等)
 // const createLintingRule = () => ({
 //   test: /\.(js|vue)$/,
 //   loader: 'eslint-loader',
@@ -21,9 +22,11 @@ function resolve (dir) {
 
 module.exports = {
   context: path.resolve(__dirname, '../'),
+  // 入口：指示 webpack 应该使用哪个模块，来作为构建其内部依赖图的开始
   entry: {
     app: './src/main.js'
   },
+  // 出口
   output: {
     path: config.build.assetsRoot,
     filename: '[name].js',
@@ -38,11 +41,12 @@ module.exports = {
       '@': resolve('src'),
     }
   },
-  module: {
+  // loader 可以将所有类型的文件转换为 webpack 能够处理的有效模块(webpack 自身只理解 JavaScript)
+  module: { 
     rules: [
       // ...(config.dev.useEslint ? [createLintingRule()] : []),
       {
-        test: /\.vue$/,
+        test: /\.vue$/,       //识别出应该被对应的 loader 进行转换的那些文件
         loader: 'vue-loader',
         options: vueLoaderConfig
       },
