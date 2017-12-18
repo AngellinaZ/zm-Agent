@@ -194,8 +194,8 @@ select {
     .f-s(unit(36/50, rem));
 }
 .btn-disabled {
-    background-color: @color-line !important;
-    color: @color-unclick !important;
+    background-color: @color-unclick !important;
+    color: #fff !important;
     border: none !important;
 }
 .btn-fixed {
@@ -233,7 +233,6 @@ select {
     width: 100%;
     position: fixed;
     top: 0;
-    z-index: 997;
     border-bottom: 1px solid #f2f2fc;
 
     img, i {
@@ -272,7 +271,7 @@ select {
         border-radius: 50%;
     }
 }
-.header+* {
+#app > div {
     padding-top: 1.75rem;
 }
 .footer {
@@ -626,7 +625,7 @@ select {
 
         .getCode {
             .abs();
-            top: unit(87/50, rem);
+            top: unit(100/50, rem);
             right: 0;
             display: inline-block;
             border: none;
@@ -3129,6 +3128,23 @@ select {
 }
 
 
+/*
+    子路由过度
+*/
+.router-slid-enter-active, .router-slid-leave-active {
+    transition: all .4s;
+}
+.router-slid-enter, .router-slid-leave-active {
+    transform: translate3d(2rem, 0, 0);
+    opacity: 0;
+}
+.childPage {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 200;
+    padding-top: 1.75rem;
+}
 
 
 

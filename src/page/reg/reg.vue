@@ -1,12 +1,6 @@
 <template>
     <div class='reg'>
-        <header class='header'>
-            <router-link to="/login">
-                <img src="../../../static/images/svg/back.svg"/>
-            </router-link>
-            <span>注册</span>
-            <i></i>
-        </header>
+        <head-top head-title='注册' go-back='true'></head-top>
         <div class="module con">
             <i class="icon eye" :class="{'active': flag}" @click="seePwd()"></i>
             <button :class="{'getCode': true, 'btn-disabled': isDisabled}" :disabled='isDisabled' @click="sendMobilecode">{{ message }}</button>
@@ -15,16 +9,22 @@
             <input class="input" type="tel" placeholder="请输入短信验证码" v-model="checkcode">
             <input v-if="!flag" class="input" type="password" placeholder="请输入登录密码" v-model="password">
             <input v-else="flag" class="input" type="text" placeholder="请输入登录密码" v-model="password">
-            <p class="prompt"><i class="icon warn"></i>密码由6-20位英文字母／数字组成</p>
+            <p class="prompt">
+                <i class="icon warn"></i>密码由6-20位英文字母／数字组成
+            </p>
         </div>
         <div class="module module-btn">
             <button class="btn" @click="validate()">注册</button>
-            <p class="prompt">注册即表示您已同意<a href="#" >《中茗金融注册协议》</a></p>
+            <p class="prompt">注册即表示您已同意 <router-link to="/reg/regProtocol">《中茗金融注册协议》</router-link></p>
         </div>
+        <transition name="router-slid" mode="out-in">
+            <router-view></router-view> 
+        </transition>
     </div>
 </template>
 
 <script>
+    import headTop from '@/components/header/head'
     import { Toast } from 'mint-ui'
     import { mobileValidate, pwdValidate } from '@/js/common'
     export default {
@@ -38,6 +38,9 @@
                 message: "获取验证码",
                 isDisabled: true
             }
+        },
+        components: {
+            'head-top': headTop
         },
         watch: {
             mobile (val, oldVal) {

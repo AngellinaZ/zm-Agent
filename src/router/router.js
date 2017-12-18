@@ -1,36 +1,44 @@
-// 导入模块
-import Login from '../page/login/login'
-import Reg from '../page/login/reg'
-import Pwd from '../page/login/pwd'
+//定义常量
+const login = r => require.ensure([], () => r(require('../page/login/login')), 'login')
+const pwd = r => require.ensure([], () => r(require('../page/pwd/pwd')), 'pwd')
+const rest = r => require.ensure([], () => r(require('../page/pwd/children/rest')), 'rest')
+const reg = r => require.ensure([], () => r(require('../page/reg/reg')), 'reg')
+const regProtocol = r => require.ensure([], () => r(require('../page/reg/children/regProtocol')), 'regProtocol')
 
 //路由配置 -- 路由嵌套
-export default [
+export default [  //顶层路由,对应app.vue
+    //登录
     {
         path: '/login',
         name: 'login',
-        component: Login
-        // children: [     // 子路由
-        //     {    
-        //         path: 'pwd',
-        //         name: 'pwd',
-        //         component: Pwd,
-        //         // component: r => require.ensure([], () => r(require('../page/login')), 'login')
-        //     },
-        //     {    
-        //         path: 'reg',
-        //         name: 'reg',
-        //         component: Reg,
-        //         // component: r => require.ensure([], () => r(require('../page/login')), 'login')
-        //     }
-        // ]
+        component: login
     },
+    //忘记密码
     {
-        path: '/pwd',
+        path: '/pwd',   
         name: 'pwd',
-        component: Pwd
-    },{
+        component: pwd,
+        children: [
+            //重置密码
+            {
+                path: 'rest',   
+                name: 'rest', 
+                component: rest
+            },
+        ]
+    },
+    //注册
+    {
         path: '/reg',
         name: 'reg',
-        component: Reg
+        component: reg,
+        children: [
+            //注册协议
+            {
+                path: 'regProtocol',
+                name: 'regProtocol',
+                component: regProtocol
+            }
+        ]
     }
 ]
