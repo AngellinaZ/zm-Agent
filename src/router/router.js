@@ -4,6 +4,7 @@ const pwd = r => require.ensure([], () => r(require('../page/pwd/pwd')), 'pwd')
 const rest = r => require.ensure([], () => r(require('../page/pwd/children/rest')), 'rest')
 const reg = r => require.ensure([], () => r(require('../page/reg/reg')), 'reg')
 const regProtocol = r => require.ensure([], () => r(require('../page/reg/children/regProtocol')), 'regProtocol')
+const product = r => require.ensure([], () => r(require('../page/product/product')), 'product')
 
 //路由配置 -- 路由嵌套
 export default [  //顶层路由,对应app.vue

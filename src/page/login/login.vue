@@ -58,16 +58,16 @@
                 }).then(function (response) {
                     var datas = response.data;
                     if (datas.success) {
-                        // mySetLocalStorage("user", {
-                        //     "mobile"        : datas.userName,
-                        //     "springtoken"   : datas.springtoken,
-                        //     "authorityId"   : datas.authorityId,
-                        //     "idCard"        : datas.idCard,
-                        //     "currDate"      : datas.currDate,
-                        //     "realName"      : datas.realName,
-                        //     "status"        : datas.status
-                        // });
-                        // that.goto("/tpl/product/list.html");
+                        that.localStorage.setItem("user", {
+                            "mobile"        : datas.userName,
+                            "springtoken"   : datas.springtoken,
+                            "authorityId"   : datas.authorityId,
+                            "idCard"        : datas.idCard,
+                            "currDate"      : datas.currDate,
+                            "realName"      : datas.realName,
+                            "status"        : datas.status
+                        });
+                        that.$router.push({ path: '/product' })
                     } else {
                         Toast(datas.resultMsg);
                     }

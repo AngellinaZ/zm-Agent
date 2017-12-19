@@ -21,6 +21,12 @@ Vue.config.productionTip = false
 
 // 1. 创建 router 实例，然后传 `routes` 配置
 const router = new VueRouter({
+    //hash: 使用 URL hash 值来作路由。支持所有浏览器，包括不支持 HTML5 History Api 的浏览器。
+    //history: 依赖 HTML5 History API 和服务器配置。查看 HTML5 History 模式.
+    //因为router默认使用“hash”,所以设置与否浏览器的URL显示像这样(http://localhost:8000/#/firsts/first ),
+    //mode设置为"history"时，浏览器URL显示为(http://localhost:8000/firsts/first),设置“history”后链接中没有#
+    mode: 'history',
+    strict: process.env.NODE_ENV !== 'production',
     routes
 }) 
 

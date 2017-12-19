@@ -105,7 +105,7 @@
                 }).then(function (response) {
                     var data = response.data;
                     if (data.success) {
-                        router.push({ path: 'login' })
+                        that.$router.push({ path: 'login' })
                     } else {
                         Toast(data.resultMsg);
                     }
