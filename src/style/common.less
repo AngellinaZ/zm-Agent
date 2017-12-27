@@ -234,6 +234,7 @@ select {
     position: fixed;
     top: 0;
     border-bottom: 1px solid #f2f2fc;
+    z-index: 100;
 
     img, i {
         display: inline-block;
@@ -454,6 +455,7 @@ select {
     * pro-detail （产品详情）
 **/
 .pro-detail {
+    background: @color-bg;
 
     .tit {
         background: #fff;
@@ -1837,6 +1839,7 @@ select {
 **/
 .apply {
     position: relative;
+    background: @color-bg;
 
     .module-list {
         p {
@@ -3142,306 +3145,18 @@ select {
     position: fixed;
     top: 0;
     left: 0;
+    right: 0;
+    bottom: 0;
     z-index: 200;
     padding-top: 1.75rem;
 }
 
 
+/*
+    better-scroll
+*/
 
-
-
-.mui-toast-container {
-    line-height: 17px;
-    position: fixed;
-    z-index: 9999;
-    bottom: 50px;
-    left: 50%;
-    -webkit-transition: opacity .3s;
-            transition: opacity .3s;
-    -webkit-transform: translate(-50%, 0);
-            transform: translate(-50%, 0);
-    opacity: 0;
-}
-.mui-toast-container.mui-active {
-    opacity: .9;
-}
-.mui-toast-message {
-    font-size: 14px;
-    padding: 10px 25px;
-    text-align: center;
-    color: #fff;
-    border-radius: 6px;
-    background-color: #323232;
-}
-.mui-popup
-{
-    position: fixed;
-    z-index: 10000;
-    top: 50%;
-    left: 50%;
-
-    display: none;
-    overflow: hidden;
-
-    width: 270px;
-
-    -webkit-transition-property: -webkit-transform,opacity;
-            transition-property:         transform,opacity;
-    -webkit-transform: translate3d(-50%, -50%, 0) scale(1.185);
-            transform: translate3d(-50%, -50%, 0) scale(1.185);
-    text-align: center;
-
-    opacity: 0;
-    color: #000;
-    border-radius: 13px;
-}
-.mui-popup.mui-popup-in
-{
-    display: block;
-
-    -webkit-transition-duration: 400ms;
-            transition-duration: 400ms;
-    -webkit-transform: translate3d(-50%, -50%, 0) scale(1);
-            transform: translate3d(-50%, -50%, 0) scale(1);
-
-    opacity: 1;
-}
-.mui-popup.mui-popup-out
-{
-    -webkit-transition-duration: 400ms;
-            transition-duration: 400ms;
-    -webkit-transform: translate3d(-50%, -50%, 0) scale(1);
-            transform: translate3d(-50%, -50%, 0) scale(1);
-
-    opacity: 0;
-}
-
-.mui-popup-inner
-{
-    position: relative;
-
-    padding: 15px;
-
-    border-radius: 13px 13px 0 0;
-    background: rgba(255, 255, 255, .95);
-}
-.mui-popup-inner:after
-{
-    position: absolute;
-    z-index: 15;
-    top: auto;
-    right: auto;
-    bottom: 0;
-    left: 0;
-
-    display: block;
-
+.scroll_container{
     width: 100%;
-    height: 1px;
-
-    content: '';
-    -webkit-transform: scaleY(.5);
-            transform: scaleY(.5);
-    -webkit-transform-origin: 50% 100%;
-            transform-origin: 50% 100%;
-
-    background-color: rgba(0, 0, 0, .2);
-}
-
-.mui-popup-title
-{
-    font-size: 18px;
-    font-weight: 500;
-
-    text-align: center;
-}
-
-.mui-popup-title + .mui-popup-text
-{
-    font-family: inherit;
-    font-size: 14px;
-
-    margin: 5px 0 0;
-}
-
-.mui-popup-buttons
-{
-    position: relative;
-
-    display: -webkit-box;
-    display: -webkit-flex;
-    display:         flex;
-
-    height: 44px;
-
-    -webkit-box-pack: center;
-    -webkit-justify-content: center;
-            justify-content: center;
-}
-
-.mui-popup-button
-{
-    font-size: 17px;
-    line-height: 44px;
-
-    position: relative;
-
-    display: block;
-    overflow: hidden;
-
-    box-sizing: border-box;
-    width: 100%;
-    height: 44px;
-    padding: 0 5px;
-
-    cursor: pointer;
-    text-align: center;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-
-    color: #007aff;
-    background: rgba(255, 255, 255, .95);
-
-    -webkit-box-flex: 1;
-}
-.mui-popup-button:after
-{
-    position: absolute;
-    z-index: 15;
-    top: 0;
-    right: 0;
-    bottom: auto;
-    left: auto;
-
-    display: block;
-
-    width: 1px;
     height: 100%;
-
-    content: '';
-    -webkit-transform: scaleX(.5);
-            transform: scaleX(.5);
-    -webkit-transform-origin: 100% 50%;
-            transform-origin: 100% 50%;
-
-    background-color: rgba(0, 0, 0, .2);
-}
-.mui-popup-button:first-child
-{
-    border-radius: 0 0 0 13px;
-}
-.mui-popup-button:first-child:last-child
-{
-    border-radius: 0 0 13px 13px;
-}
-.mui-popup-button:last-child
-{
-    border-radius: 0 0 13px 0;
-}
-.mui-popup-button:last-child:after
-{
-    display: none;
-}
-.mui-popup-button.mui-popup-button-bold
-{
-    font-weight: 600;
-}
-.mui-popup-backdrop.mui-active {
-    opacity: 1;
-}
-.mui-popup-backdrop {
-    position: fixed;
-    z-index: 1000;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    -webkit-transition-duration: 400ms;
-    transition-duration: 400ms;
-    opacity: 0;
-    background: rgba(0,0,0,.4);
-}
-
-/*开关*/
-.mui-switch.mui-active {
-    border-color: #82dcde;
-    background-color: #82dcde;
-}
-.mui-switch {
-    position: relative;
-    display: block;
-    width: unit(100/50, rem);
-    height: unit(50/50, rem);
-    -webkit-transition-timing-function: ease-in-out;
-    transition-timing-function: ease-in-out;
-    -webkit-transition-duration: .2s;
-    transition-duration: .2s;
-    -webkit-transition-property: background-color,border;
-    transition-property: background-color,border;
-    border: 1px solid @color-border;
-    border-radius: 20px;
-    background-color: #fff;
-    background-clip: padding-box;
-    margin-right: unit(35/50, rem);
-}
-.mui-active .mui-switch-handle {
-    left: unit(-28/50, rem);
-}
-.mui-switch.mui-active .mui-switch-handle {
-    -webkit-transform: translate(19px,0);
-    transform: translate(19px,0);
-}
-.mui-switch .mui-switch-handle {
-    position: absolute;
-    z-index: 1;
-    top: -3px;
-    left: -1px;
-    width: unit(60/50, rem);
-    height: unit(60/50, rem);
-    -webkit-transition: .2s ease-in-out;
-    transition: .2s ease-in-out;
-    -webkit-transition-property: -webkit-transform,width,left;
-    transition-property: transform,width,left;
-    border-radius: 16px;
-    background-color: #fff;
-    background-clip: padding-box;
-    border: 1px solid @color-border;
-}
-
-/*mui 日历控件，地址控件*/
-.mui-dtpicker-header {
-    background: #fff;
-
-    .mui-btn {
-        border: none;
-        color: @color-main;
-        background: #fff;
-        .f-s(unit(30/50, rem));
-    }
-}
-.mui-dtpicker-title {
-
-    h5 {
-        background: #fff !important;
-        font-weight: normal;
-    }
-}
-.mui-dtpicker-body {
-
-    .mui-picker {
-        background: #fff;
-
-        .mui-pciker-rule {
-            .f-s(unit(30/50, rem));
-        }
-    }
-}
-.mui-backdrop {
-    position: fixed;
-    z-index: 998;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    background-color: rgba(0,0,0,.3);
 }

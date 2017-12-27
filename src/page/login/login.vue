@@ -31,9 +31,6 @@
                 flag: false
             }
         },
-        components: {
-
-        },
         methods: {
             validate () {
                 if (!this.mobile) {
@@ -58,7 +55,7 @@
                 }).then(function (response) {
                     var datas = response.data;
                     if (datas.success) {
-                        that.localStorage.setItem("user", {
+                        localStorage.setItem("user",  JSON.stringify({
                             "mobile"        : datas.userName,
                             "springtoken"   : datas.springtoken,
                             "authorityId"   : datas.authorityId,
@@ -66,7 +63,7 @@
                             "currDate"      : datas.currDate,
                             "realName"      : datas.realName,
                             "status"        : datas.status
-                        });
+                        }));
                         that.$router.push({ path: '/product' })
                     } else {
                         Toast(datas.resultMsg);

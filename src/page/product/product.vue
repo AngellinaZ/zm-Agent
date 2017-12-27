@@ -1,11 +1,11 @@
 <template>
-    <div class='reg'>
-        <head-top head-title='产品' go-back='true'></head-top>
+    <div class='product'>
+        <head-top head-title='产品' :go-back='false'></head-top>
         <section class="banner" @click="goto('../operationGuide/list.html')">
             <img :src="src" />
         </section>
         <div class="product-item">
-            <ul>
+            <ul> 
                 <li>
                     <img src="../../../static/images/icon/icon-11.png" />
                     <span>我的客户</span>
@@ -28,8 +28,8 @@
                         <p>银行合作 安全可靠</p>
                     </div>
                     <div>
-                        <span>产品介绍</span>
-                        <span>立即申请</span>
+                        <span @click="gotoAddress('product/introduce')">产品介绍</span>
+                        <span @click="gotoAddress('product/apply?type=1')">立即申请</span>
                     </div>
                 </li>
             </ul>
@@ -37,47 +37,41 @@
         <transition name="router-slid" mode="out-in">
             <router-view></router-view> 
         </transition>
+        <foot name='首页'></foot>
     </div>
 </template>
 
 <script>
     import headTop from '@/components/header/head'
-    import { Toast } from 'mint-ui'
-    import { mobileValidate, pwdValidate } from '@/js/common'
+    import foot from '@/components/footer/foot'
+    import { Toast, MessageBox } from 'mint-ui'
     export default {
-        name: 'reg',
+        name: 'product',
         data() {
             return {
                 src: "../../../static/images/test/pic-1.jpg",
-                msgNum: "",
+                msgNum: '',
                 rows: [],
-                deptId: "",
-                productTypeId: "",
-                merchantId: "",
-                bankId: "",
-                carPrice: "",
-                firstPay: "",
+                deptId: '',
+                productTypeId: '',
+                merchantId: '',
+                bankId: '',
+                carPrice: '',
+                firstPay: '',
                 loan: 10,  //贷款额
                 isNewMsg: '',   //是否有新消息
             }
         },
         components: {
-            'head-top': headTop
+            'head-top': headTop,
+            'foot': foot
         },
         methods: {
-            goto: function (url, name) {
-                if (name == 'msg') {
-                    mySetLocalStorage('toDoList', '/tpl/product/list.html');
-                    myOpenWindow(url, "");
-                } else {
-                    myOpenWindow(url, "");
-                }
+            gotoAddress (path) {
+                this.$router.push(path);
             },
-            tabFooter:function (item) {
-                myOpenWindow(item.href, "");
-            },
-            toApply: function (url) {
-                var user = JSON.parse(myGetLocalStorage("user"));
+            toApply (url) {
+                var user = JSON.parse(localStorage.getItem("user"));
                 if (user) {
                     var idCard = user.idCard,
                         authorityId = (user.authorityId).toString(),
@@ -87,51 +81,23 @@
                         //账户是业务员或内勤
                         if (authorityId.indexOf(2) >= 0 || authorityId.indexOf(3) >= 0) {
                             if (idCard) {
-                                mySetLocalStorage("draftAddress","/tpl/product/list.html");
-                                myOpenWindow(url, "");
+                                // mySetLocalStorage("draftAddress","/tpl/product/list.html");
+                                // myOpenWindow(url, "");
                             } else {
-                                var btnArr = ['取消', '去认证'];
-                                mui.confirm('您还未实名认证，请先进行实名认证！','', btnArr, function(e) {
-                                    if (e.index == 1) {
-                                        myOpenWindow("/tpl/user-info/certigy.html", "");
-                                    }
+                                let that = this;
+                                MessageBox.confirm('您还未实名认证，请先进行实名认证！').then(action => {
+                                    that.gotoAddress('/user-info/certigy')
                                 })
+                                var btnArr = ['取消', '去认证'];
                             }
                         } else {
-                            mui.toast("抱歉，您没有权限");
+                            Toast("抱歉，您没有权限");
                         }
                     } else {
-                        mui.toast("抱歉，您没有权限");
+                        Toast("抱歉，您没有权限");
                     }
                 }
-            },
-            getMessageCount: function() {
-                var _this = this;
-                var params = [0];
-                this.$http({
-                    method: 'post',
-                     url: this.HOST + '/message/user/getMessageCount.htm',
-                    params: {
-                        sourceTypeId: params[0]
-                    }
-                }).then(function (response) {
-                    var datas = response.data;
-                    if (datas.success) {
-                        _this.msgNum = datas.num;
-                    } else {
-                        if (datas.code == '405') {
-                            againLogin(product.getMessageCount, params);
-                        } else {
-                            mui.toast(datas.resultMsg);
-                        }
-                    }
-                }).catch(function (error) {
-                    mui.toast(error);
-                })
             }
-        },
-        created(){
-            this.getMessageCount();
         }
     }
 </script>

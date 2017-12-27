@@ -113,9 +113,6 @@
                     Toast(error);
                 })
             }
-        },
-        created(){
-            
         }
     }
 </script>

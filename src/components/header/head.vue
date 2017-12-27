@@ -1,6 +1,7 @@
 <template>
     <header id='head_top' class="header">
-        <section @click="$router.go(-1)">
+        <i v-show='!goBack'></i>
+        <section v-show='goBack' @click="$router.go(-1)">
             <img src="../../../static/images/svg/back.svg"/>
         </section>
         <section class="title_head" v-if="headTitle">
@@ -17,16 +18,18 @@
             return {
             }
         },
-        props: ['headTitle', 'goBack']
+        props: {
+            goBack: {
+                type: Boolean
+            },
+            headTitle: {
+                type: String
+            }
+        },
+        watch: {
+            goBack(val) {
+                console.log()
+            }
+        }
     }
 </script>
-
-<style lang='less'>
-    .head_goback {
-        left: 0.4rem;
-        width: 0.6rem;
-        height: 1rem;
-        line-height: 2.2rem;
-        margin-left: .4rem;
-    }
-</style>
