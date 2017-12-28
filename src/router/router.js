@@ -8,6 +8,11 @@ const regProtocol = r => require.ensure([], () => r(require('../page/reg/childre
 const product = r => require.ensure([], () => r(require('../page/product/product')), 'product')
 const introduce = r => require.ensure([], () => r(require('../page/product/children/introduce')), 'introduce')
 const apply = r => require.ensure([], () => r(require('../page/product/children/apply')), 'apply')
+const applySuccess = r => require.ensure([], () => r(require('../page/product/children/applySuccess')), 'applySuccess')
+
+const count = r => require.ensure([], () => r(require('../page/count/count')), 'count')
+const totalIncomplete = r => require.ensure([], () => r(require('../page/count/children/totalIncomplete')), 'totalIncomplete')
+const totalMortgage = r => require.ensure([], () => r(require('../page/count/children/totalMortgage')), 'totalMortgage')
 
 const orderList = r => require.ensure([], () => r(require('../page/orders/orderList')), 'orderList')
 
@@ -60,10 +65,37 @@ export default [  //顶层路由,对应app.vue
                 name: 'introduce',
                 component: introduce
             },
+            //申请
             {
                 path: 'apply',
                 name: 'apply',
                 component: apply
+            },
+            //申请成功
+            {
+                path: 'applySuccess',
+                name: 'applySuccess',
+                component: applySuccess
+            }
+        ]
+    },
+    //统计
+    {
+        path: '/count',
+        name: 'count',
+        component: count,
+        children: [
+            //资料未齐全
+            {
+                path: 'totalMortgage',
+                name: 'totalMortgage',
+                component: totalMortgage
+            },
+            //抵押未完成
+            {
+                path: 'totalMortgage',
+                name: 'totalMortgage',
+                component: totalMortgage
             }
         ]
     },

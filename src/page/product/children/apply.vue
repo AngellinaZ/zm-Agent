@@ -256,39 +256,38 @@
                         </li>
                     </ul>
                 </div>
-                <div class="box" v-if='flag'>
-                    <div>
-                        <p class="con">
-                            <b>拍摄说明</b>
-                            <span>将证件置于平面上，手机横向与证件平行拍摄，保证证件的四边全部入境，且内容清晰可见。</span>
-                        </p>
-                        <img src="../../../../static/images/pic/explain.png">
-                        <p class="con">
-                            <b>证件说明</b>
-                            <span>若身份证遗失或过期，请上传【临时身份证】和【身份证补办申领回单】照片。</span>
-                        </p>
-                        <p class="kown" @click="kown(false)">知道了</p>
-                    </div>
-                </div>
             </div>
         </div>
         <div class="opration">
-            <button @click="submit('step1',1)">存草稿</button>
-            <button @click="submit('step1',2)">下一步</button>
+            <button v-if='step == 1' @click="submit('step1',1)">存草稿</button>
+            <button v-if='step == 1' @click="submit('step1',2)">下一步</button>
+
+            <button v-if='step == 2' @click="submit('step2',1)">存草稿</button>
+            <button v-if='step == 2' @click="submit('step2',2)">上一步</button>
+            <button v-if='step == 2' @click="submit('step2',3)">提交</button>
         </div>
-        <!-- <div class="opration">
-            <button @click="submit('step2',1)">存草稿</button>
-            <button @click="submit('step2',2)">上一步</button>
-            <button @click="submit('step2',3)">提交</button>
-        </div> -->
+        <div class="box" v-if='flag'>
+            <div>
+                <p class="con">
+                    <b>拍摄说明</b>
+                    <span>将证件置于平面上，手机横向与证件平行拍摄，保证证件的四边全部入境，且内容清晰可见。</span>
+                </p>
+                <img src="../../../../static/images/pic/explain.png">
+                <p class="con">
+                    <b>证件说明</b>
+                    <span>若身份证遗失或过期，请上传【临时身份证】和【身份证补办申领回单】照片。</span>
+                </p>
+                <p class="kown" @click="kown(false)">知道了</p>
+            </div>
+        </div>
     </div>
 </template>
 
 <script>
     import headTop from '@/components/header/head'
     import BScroll from 'better-scroll'
-    import { Toast } from 'mint-ui'
-    import { mobileValidate, pwdValidate,getQueryString } from '@/js/common'
+    import { Toast, MessageBox, Indicator } from 'mint-ui'
+    import { mobileValidate, identification, getQueryString } from '@/js/common'
     export default {
         name: 'introduce',
         data() {
@@ -375,7 +374,7 @@
                 if (this.typeForm == 1) { //从首页进入
                     this.loanApplyId = "";
                 } else if (this.typeForm == 2) { //从订单进入
-                    // var currRow = JSON.parse(localStorage.getItem("currRow"));
+                    var currRow = JSON.parse(localStorage.getItem("currRow"));
                     console.log(currRow)
                     if (currRow.webStatus == 500) {
                         this.webStatus = currRow.webStatus;
@@ -525,7 +524,6 @@
                 } else {
                     Toast("抱歉，您没有权限");
                 }
-                
             },
             getBank: function () {  //贷款银行
                 var that = this;
@@ -714,10 +712,11 @@
                     var URL = window.URL || window.webkitURL;
                     bold = URL.createObjectURL(bold);
                 }
+                Indicator.open();
                 var that = this;
                 var params = new URLSearchParams();
                 params.append('images', basestr);
-                this.$http.post("/file/images.htm", params)
+                this.$http.post( this.HOST + "/file/images.htm", params)
                 .then(function (response) {
                     if (response.data.success) {
                         if (inputName == "idcardFront") {    //借款人
@@ -743,6 +742,7 @@
                             that.warrantPhotoArr.push(obj);
                         };
                     } 
+                    Indicator.close();
                 })
                 .catch(function (error) {
                     Toast(error);
@@ -912,7 +912,7 @@
                     warrantPhotoArr += that.warrantPhotoArr[index].src + ",";
                 })
                 warrantPhotoArr = warrantPhotoArr.substring(0, warrantPhotoArr.length - 1);
-                myLoading();
+                Indicator.open();
                 this.$http({
                     method: 'post',
                     url: this.HOST + '/agentLoanApply/user/agent/apply.htm',
@@ -966,27 +966,28 @@
                         if (webStatus == 500) {
                             Toast("保存成功！");
                             setTimeout(function () {
+                                that.$router.push({ path: '/list' });
                                 myOpenWindow("../orders/list.html", "");
                             }, 1000)
                         } else {
-                            myOpenWindow("../product/applySuccess.html", "");
+                            that.$router.push({ path: '/product/applySuccess' });
                         }
                     } else {
                         if (datas.code == "user_identity_mobile_error") {
-                            myConfirm('主借人姓名身份证号手机号不一致，请确认是否继续？', function () {
+                            MessageBox.alert('主借人姓名身份证号手机号不一致，请确认是否继续？').then(action => {
                                 that.verifyType = 2;
                                 if (webStatus == 500) {
                                     that.apply(500);
                                 } else {
                                      that.apply();
                                 }
-                            });
+                            }) 
                         } else {
                             that.verifyType = 1;
                             Toast(datas.resultMsg);
                         }
                     }
-                    myLoadingOver();
+                    Indicator.close();
                 }).catch(function (error) {
                     Toast(error);
                 })

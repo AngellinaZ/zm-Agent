@@ -1,6 +1,6 @@
 <template>
     <div class='orders filter'>
-        <head-top head-title='订单' go-back='false'></head-top>
+        <head-top head-title='订单' :go-back='false'></head-top>
         <div class="list">
             <ul class="tabs">
                 <li :class="{'active': flag == 0}" @click="tabClick(webStatus[0], '0')">全部</li>

@@ -25,15 +25,35 @@ function pwdValidate (pwd) {
         return true;
     }
 }
-// // 验证card
-// pwdValidate (pwd) {
-//     var cardReg = /(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/;
-//     if (!cardReg.test(pwd)) {
-//         return false;
-//     } else {
-//         return true;
-//     }
-// }
+
+//验证身份证号码
+function identification (num) {
+    var num = num.toUpperCase().split(''),                              // 大写/格式化成数组
+        ratio = [7, 9, 10, 5, 8, 4, 2, 1, 6, 3, 7, 9, 10, 5, 8, 4, 2],  // 前17未对应的系数
+        verification = [1, 0, 'X' , 9, 8, 7, 6, 5, 4, 3, 2],            // 最后一位对应值
+        type,
+        total = 0;
+
+    if (num.length != 18 && num.length != 15) {
+        // 位数不对，返回错误信息
+        type = false;
+    } else {
+        if (num.length == 18) {
+            for (var i = 0; i < ratio.length; i++) {
+                total += Number(ratio[i]) * Number(num[i]);
+            }
+            // 计算方式：前17位身份证号乘以对应的系数再除以11取余，用余数为索引去取最后一位对应的值，把值与身份证最后一位做比较
+            if (verification[total % 11] != num[num.length - 1]) {
+                // 末尾验证不过，返回错误信息
+                type = false;
+            } else {
+                // 通过
+                type = true;
+            }
+        }
+    }
+    return type;
+}
 
 /**
     * JS获取URL中参数值
@@ -53,5 +73,6 @@ function getQueryString (name) {
 export { 
     mobileValidate, 
     pwdValidate,
-    getQueryString
+    getQueryString,
+    identification
 }

@@ -16,7 +16,7 @@
                 </li>
                 <li>
                     <img src="../../../static/images/icon/icon-10.png" />
-                    <span>统计</span>
+                    <span @click="gotoAddress('/count')">统计</span>
                 </li>
             </ul>
         </div>
