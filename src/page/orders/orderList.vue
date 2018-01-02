@@ -1,16 +1,23 @@
 <template>
     <div class='orders filter'>
-        <head-top head-title='订单' :go-back='false'></head-top>
+        <head-top :go-back='false'>
+            <div slot='searchDiv'>
+                <input type="text" name="" placeholder="输入客户姓名或手机号码" v-model='filterMsg'>
+                <i class="icon search"></i>
+                <span class="x" v-if='filterMsg' @click="clearInput">X</span>
+            </div>
+            <em slot='searchBtn' @click='query()'>搜索</em>
+        </head-top>
         <div class="list">
             <ul class="tabs">
                 <li :class="{'active': flag == 0}" @click="tabClick(webStatus[0], '0')">全部</li>
                 <li :class="{'active': flag == 1}" @click="tabClick(webStatus[1], '1')">进行中</li>
                 <li :class="{'active': flag == 2}" @click="tabClick(webStatus[2], '2')">已完成</li>
                 <li :class="{'active': flag == 3}" @click="tabClick(webStatus[3], '3')">已关闭</li>
-                <li @click='toFilter'>筛选<img src="../../../static/images/icon/filter.png"></li>
+                <li @click='toFilter'>筛选<img src="/static/images/icon/filter.png"></li>
             </ul>
             <ul class="con" id="con">
-                <li class="module" v-for="row in rows" @click="SetLocalStorage(row)">
+                <li class="module" v-for="row in rows" :key='row.id' @click="SetLocalStorage(row)">
                     <div class="marking">
                         <div>
                             <p>{{ row.user.name }}
@@ -38,18 +45,19 @@
                 </ul>
             </div>
         </div>
-        <transition name="router-slid" mode="out-in">
-            <router-view></router-view> 
-        </transition>
-        <foot name='订单'></foot>
+        <div class="blankPage" v-if='rows.length < 1'>
+            <img src="/static/images/pic/blankPage.png">
+            <p>———— 暂无记录 ————</p>
+        </div>
+        <vue-foot name='订单'></vue-foot>
     </div>
 </template>
 
 <script>
     import headTop from '@/components/header/head'
-    import foot from '@/components/footer/foot'
+    import vueFoot from '@/components/footer/foot'
     import { Toast } from 'mint-ui'
-    import { mobileValidate, pwdValidate } from '@/js/common'
+    import { getWebStatus } from '@/js/common'
     export default {
         name: 'orderList',
         data() {
@@ -139,17 +147,17 @@
         },
         components: {
             'head-top': headTop,
-            'foot': foot
+            'vue-foot': vueFoot
         },
        methods: {
-            clearInput: function () {
+            clearInput () {
                 this.filterMsg = '';
             },
-            toFilter: function () {
+            toFilter () {
                 this.isFilter = true;
                 //点击阴影区关闭筛选区域
                 if (this.isFilter) {
-                    var _this = this;
+                    var that = this;
                     setTimeout(function () {
                         var mask = document.querySelector(".mask")
                         var filter = document.querySelector("#filter");
@@ -157,57 +165,57 @@
 
                         mask.onclick = function (e) {
                             if (e.clientX < shaowArea) {
-                                _this.isFilter = false;
+                                that.isFilter = false;
                             }
                         }
                     },200)
                 }
             },
             query:function(){ //搜索
-                var _this = this;
-                axios({
+                var that = this;
+                this.$http({
                     method: 'post',
-                    url: global.apiURL + '/agentLoanApply/user/getMerchantLoanApply.htm',
+                    url: this.HOST + '/agentLoanApply/user/getMerchantLoanApply.htm',
                     params: {
                         rows: 800,
                         page: 1,
-                        queryParams: _this.filterMsg
+                        queryParams: that.filterMsg
                     }
                 }).then(function (response) {
                     var datas = response.data;
                     if (datas.success) {
-                        _this.rows = [];
-                        _this.isQuery = true;
-                        _this.queryResult = datas.rows;
+                        that.rows = [];
+                        that.isQuery = true;
+                        that.queryResult = datas.rows;
                         for (var i = 0; i < datas.rows.length; i++) {
-                            for (var j = 0; j < _this.colorArr.length; j++) {
-                                if (datas.rows[i].webStatus == _this.colorArr[j].code) {
-                                    datas.rows[i].clazz = _this.colorArr[j].color;
+                            for (var j = 0; j < that.colorArr.length; j++) {
+                                if (datas.rows[i].webStatus == that.colorArr[j].code) {
+                                    datas.rows[i].clazz = that.colorArr[j].color;
                                 }
                             }
                         }
                         if (datas.rows.length == 1) {
-                            for (var i = 0; i < _this.webStatus.length; i++) {
-                                for (var j = 0; j < _this.webStatus[i].split(',').length; j++) {
-                                    if (_this.webStatus[i].split(',')[j] == datas.rows[0].webStatus) {
-                                        _this.rows = datas.rows;
-                                        _this.flag = i;
+                            for (var i = 0; i < that.webStatus.length; i++) {
+                                for (var j = 0; j < that.webStatus[i].split(',').length; j++) {
+                                    if (that.webStatus[i].split(',')[j] == datas.rows[0].webStatus) {
+                                        that.rows = datas.rows;
+                                        that.flag = i;
                                     }
                                 }
                             }
                         } else {
-                            _this.tabClick(_this.webStatus[0], '0');
+                            that.tabClick(that.webStatus[0], '0');
                         }
                     } else {
                         if (datas.code == 'record_not_exsist') {
-                            _this.rows = [];
+                            that.rows = [];
                         }
                     }
                 }).catch(function (error) {
                     mui.toast(error);
                 });
             },
-            tabClick: function (webStatus, flag) {  //切换不同状态的订单
+            tabClick (webStatus, flag) {  //切换不同状态的订单
                 this.currWebStatus = webStatus;
                 this.flag = flag;
                 this.page = 1;
@@ -226,17 +234,17 @@
                     }
                 }
             },
-            statusFilter: function (s) {  //侧滑依据单一状态搜索
+            statusFilter (s) {  //侧滑依据单一状态搜索
                 this.currWebStatus = this.currStatus = s;
                 this.getMerchantLoanApply('single');
             },
-            getMerchantLoanApply:function (type) {
+            getMerchantLoanApply (type) {
                 this.loadFlag = false;
                 var params = [this.row, this.page, this.currWebStatus];
-                var _this = this;
-                axios({
+                var that = this;
+                this.$http({
                 method: 'post',
-                url: global.apiURL + '/agentLoanApply/user/getMerchantLoanApply.htm',
+                url: this.HOST + '/agentLoanApply/user/getMerchantLoanApply.htm',
                 params: {
                     rows: params[0],
                     page: params[1],
@@ -247,41 +255,41 @@
                     if (datas.success) {
                         //状态筛选
                         if (type == 'single') {  
-                            _this.rows = [];  //每次筛选状态清空之前的数据
-                            for (var i = 0; i < _this.webStatus.length; i++) {
-                                for (var j = 0; j < _this.webStatus[i].split(',').length; j++) {
-                                    if (params[2] == _this.webStatus[i].split(',')[j]) {
-                                        _this.flag = i;
+                            that.rows = [];  //每次筛选状态清空之前的数据
+                            for (var i = 0; i < that.webStatus.length; i++) {
+                                for (var j = 0; j < that.webStatus[i].split(',').length; j++) {
+                                    if (params[2] == that.webStatus[i].split(',')[j]) {
+                                        that.flag = i;
                                     }
                                 }
                             }
-                            setTimeout(function () {_this.isFilter = false}, 100);
+                            setTimeout(function () {that.isFilter = false}, 100);
                         }
 
-                        _this.totalPage = Math.ceil(datas.total / _this.row);
-                        _this.rows = _this.rows.concat(datas.rows);
+                        that.totalPage = Math.ceil(datas.total / that.row);
+                        that.rows = that.rows.concat(datas.rows);
                         //添加list对应的文字颜色
-                        for (var i = 0; i < _this.rows.length; i++) {
-                            for (var j = 0; j < _this.colorArr.length; j++) {
-                                if (_this.rows[i].webStatus == _this.colorArr[j].code) {
-                                    _this.rows[i].clazz = _this.colorArr[j].color;
+                        for (var i = 0; i < that.rows.length; i++) {
+                            for (var j = 0; j < that.colorArr.length; j++) {
+                                if (that.rows[i].webStatus == that.colorArr[j].code) {
+                                    that.rows[i].clazz = that.colorArr[j].color;
                                 }
                             }
                         }
 
-                        _this.loadFlag = true;
+                        that.loadFlag = true;
                     } else {
                         if (datas.code == 'record_not_exsist') {
-                            _this.rows = [];
-                            _this.resultMsg = datas.resultMsg;
-                            for (var i = 0; i < _this.webStatus.length; i++) {
-                                for (var j = 0; j < _this.webStatus[i].split(',').length; j++) {
-                                    if (params[2] == _this.webStatus[i].split(',')[j]) {
-                                        _this.flag = i;
+                            that.rows = [];
+                            that.resultMsg = datas.resultMsg;
+                            for (var i = 0; i < that.webStatus.length; i++) {
+                                for (var j = 0; j < that.webStatus[i].split(',').length; j++) {
+                                    if (params[2] == that.webStatus[i].split(',')[j]) {
+                                        that.flag = i;
                                     }
                                 }
                             }
-                            setTimeout(function () {_this.isFilter = false}, 100);
+                            setTimeout(function () {that.isFilter = false}, 100);
                         } else if (datas.code == '405') {
                             againLogin(orders.getMerchantLoanApply, params);
                         } else {
@@ -292,7 +300,7 @@
                     mui.toast(error);
                 });
             },
-            SetLocalStorage:function (currRow) {
+            SetLocalStorage (currRow) {
                 mySetLocalStorage('currRow', currRow);
                 if (currRow.webStatus == 500) {
                     mySetLocalStorage("draftAddress","/tpl/orders/list.html");
@@ -300,36 +308,33 @@
                 } else {
                     myOpenWindow('../orders/detail.html', "");
                 }
-            },
-            scroll: function () {
-                //scroll
-                var headerHeight = document.querySelector(".header").clientHeight;
-                var footerHeight = document.querySelector(".footer").clientHeight;
-                var tabsHeight = document.querySelector(".tabs").clientHeight;
-                var scrollHeight = document.body.clientHeight - headerHeight - footerHeight - tabsHeight; //区域高度
-                var _this = this;
-                document.addEventListener('scroll', function (e) {
-                    var conHeight = document.getElementById("con").clientHeight; //总高度
-                    var scrollTop = document.documentElement.scrollTop || window.pageYOffset || document.body.scrollTop;
-                    if (scrollHeight + scrollTop >= conHeight) {
-                        if (_this.loadFlag && _this.totalPage > _this.page) {
-                            _this.page++;
-                            _this.getMerchantLoanApply();
-                        }
-                    } 
-                }, false)
             }
         },
         filters: {
-            filterStatus: function(webStatus) {
-                var status = zjzm.webStatus(webStatus);
+            filterStatus (webStatus) {
+                var status = getWebStatus(webStatus);
                 return status;
             }
         },
-        created(){
+        mounted() {
+            var headerHeight = document.querySelector(".header").clientHeight;
+            var footerHeight = document.querySelector(".footer").clientHeight;
+            var tabsHeight = document.querySelector(".tabs").clientHeight;
+            var scrollHeight = document.body.clientHeight - headerHeight - footerHeight - tabsHeight; //区域高度
+            var that = this;
+            document.addEventListener('scroll', function (e) {
+                var conHeight = document.getElementById("con").clientHeight; //总高度
+                var scrollTop = document.documentElement.scrollTop || window.pageYOffset || document.body.scrollTop;
+                if (scrollHeight + scrollTop >= conHeight) {
+                    if (that.loadFlag && that.totalPage > that.page) {
+                        that.page++;
+                        that.getMerchantLoanApply();
+                    }
+                } 
+            }, false)
+        },
+        created() {
             this.getMerchantLoanApply('');
-            this.getMessageCount();
-            this.scroll();
         }
     }
 </script>

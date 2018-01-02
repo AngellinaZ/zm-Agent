@@ -5,7 +5,7 @@
             <input type='tel' maxlength='11' placeholder='请输入手机号' class='input input-login' v-model='mobile' />
             <input v-if='!flag' type='password' placeholder='请输入密码'  class='input input-login' v-model='password' />
             <input v-else='flag' type='text' placeholder='请输入密码'  class='input input-login' v-model='password' />
-            <i class='icon eye' :class='{active : flag}' @click='seePwd()'></i>
+            <i class='icon eye' :class='{active : flag}' @click='seePwd'></i>
         </div>
         <div class='module'>
             <button class='btn' @click='validate()'>登录</button>
@@ -75,11 +75,6 @@
             seePwd () {
                 this.flag = !(this.flag);
             }
-        },
-        created(){
-            // this.$api.get('topics', null, r => {
-            //   console.log(r)
-            // })
         }
     }
 </script>

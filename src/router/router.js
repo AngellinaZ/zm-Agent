@@ -16,6 +16,15 @@ const totalMortgage = r => require.ensure([], () => r(require('../page/count/chi
 
 const orderList = r => require.ensure([], () => r(require('../page/orders/orderList')), 'orderList')
 
+const msg = r => require.ensure([], () => r(require('../page/msg/msgClassify')), 'msg')
+const toDoList = r => require.ensure([], () => r(require('../page/msg/children/toDoList')), 'toDoList')
+const noticeMsg = r => require.ensure([], () => r(require('../page/msg/children/noticeMsg')), 'noticeMsg')
+const sysNotice = r => require.ensure([], () => r(require('../page/msg/children/sysNotice')), 'sysNotice')
+const monthlyOver = r => require.ensure([], () => r(require('../page/msg/children/monthlyOver')), 'monthlyOver')
+
+const service = r => require.ensure([], () => r(require('../page/service/service')), 'service')
+const operationGuide = r => require.ensure([], () => r(require('../page/service/children/operationGuide')), 'operationGuide')
+
 
 //路由配置 -- 路由嵌套
 export default [  //顶层路由,对应app.vue
@@ -87,9 +96,9 @@ export default [  //顶层路由,对应app.vue
         children: [
             //资料未齐全
             {
-                path: 'totalMortgage',
-                name: 'totalMortgage',
-                component: totalMortgage
+                path: 'totalIncomplete',
+                name: 'totalIncomplete',
+                component: totalIncomplete
             },
             //抵押未完成
             {
@@ -104,5 +113,53 @@ export default [  //顶层路由,对应app.vue
         path: '/orderList',
         name: 'orderList',
         component: orderList
+    },
+    //消息
+    {
+        path: '/msg',
+        name: 'msg',
+        component: msg,
+        children: [
+            //待办事项
+            {
+                path: 'toDoList',
+                name: 'toDoList',
+                component: toDoList
+            },
+            //通知消息
+            {
+                path: 'noticeMsg',
+                name: 'noticeMsg',
+                component: noticeMsg,
+                children: [
+                    //月成交单
+                    {
+                        path: 'monthlyOver',
+                        name: 'monthlyOver',
+                        component: monthlyOver
+                    }
+                ]
+            },
+            //系统公告
+            {
+                path: 'sysNotice',
+                name: 'sysNotice',
+                component: sysNotice
+            }
+        ]
+    },
+    //服务
+    {
+        path: '/service',
+        name: 'service',
+        component: service,
+        children: [
+            //操作指导
+            {
+                path: 'operationGuide',
+                name: 'operationGuide',
+                component: operationGuide
+            }
+        ]
     }
 ]

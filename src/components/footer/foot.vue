@@ -12,7 +12,7 @@
 
 <script>
     export default {
-        name: 'foot',
+        name: 'vueFoot',
         data() {
             return {
                 msgNum: '',
@@ -31,20 +31,22 @@
                     },
                     {
                         name : "消息",
-                        href : "/classify",
+                        href : "/msg",
                         clazz : "msg",
                         status : false
                     },
                     {
                         name : "服务",
-                        href : "/user-info",
+                        href : "/service",
                         clazz : "user",
                         status : false
                     }
                 ]
             }
         },
-        props: ['name'],
+        props: {
+            name: String
+        },
         methods: {
             gotoAddress (url) {
                 this.$router.push(url)

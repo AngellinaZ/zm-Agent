@@ -1,13 +1,16 @@
 <template>
     <header id='head_top' class="header">
-        <i v-show='!goBack'></i>
         <section v-show='goBack' @click="$router.go(-1)">
             <img src="../../../static/images/svg/back.svg"/>
         </section>
-        <section class="title_head" v-if="headTitle">
+        <i v-show='!goBack'></i>
+        <section v-if="headTitle" class="title_head">
             <span class="title_text">{{headTitle}}</span>
         </section>
-        <section><i></i></section>
+        <section v-if="headTitle"><i></i></section>
+
+        <slot name='searchDiv'></slot>
+        <slot name='searchBtn'></slot>
     </header>
 </template>
 

@@ -1,6 +1,6 @@
 <template>
     <div class='reg'>
-        <head-top head-title='注册' go-back='true'></head-top>
+        <head-top head-title='注册' :go-back='true'></head-top>
         <div class="module con">
             <i class="icon eye" :class="{'active': flag}" @click="seePwd()"></i>
             <button :class="{'getCode': true, 'btn-disabled': isDisabled}" :disabled='isDisabled' @click="sendMobilecode">{{ message }}</button>

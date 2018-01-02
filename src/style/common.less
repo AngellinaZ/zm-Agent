@@ -841,7 +841,7 @@ select {
 **/
 .calssify {
 
-    .list li {
+    .msgList li {
         display: flex;
         background: #fff;
         border-bottom: 1px solid @color-line;
@@ -915,11 +915,15 @@ select {
     * 待办事项
 **/
 .toDoList {
+    background: @color-bg;
 
     .list {
         .rel();
-        top: unit(75/50, rem);
         margin-bottom: unit(150/50, rem);
+        
+        ul {
+            padding-bottom: 2.5rem;
+        }
     }
     .tabs {
         display: flex;
@@ -949,11 +953,27 @@ select {
     }
 }
 
+/**
+    * 通知消息
+**/
+.noticeMsg, .sysNotice {
+    background: @color-bg;
+
+    .list {
+        padding-top: 0.6rem;
+
+        ul {
+            padding-bottom: 1rem;
+        }
+    }
+}
+
 
 /**
     * 月成交单
 **/
 .monthly {
+    background: @color-bg;
 
     .total {
         .f-s(unit(30/50, rem));
@@ -2551,6 +2571,7 @@ select {
     *资料未齐全
 */
 .totalIncomplete {
+    background: @color-bg;
 
     p {
         height: unit(80/50, rem);
@@ -2599,6 +2620,8 @@ select {
     *抵押未完成
 */
 .totalMortgage {
+
+
     .tit {
         top: unit(120/50, rem);
     }

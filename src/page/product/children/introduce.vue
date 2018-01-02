@@ -1,6 +1,6 @@
 <template>
     <div class='pro-detail childPage' v-cloak>
-        <head-top head-title='产品介绍' go-back='true'></head-top>
+        <head-top head-title='产品介绍' :go-back='true'></head-top>
         <div id="scroll_section" class="scroll_container">
             <div>
                 <section class="tit">

@@ -6,17 +6,17 @@
         </section>
         <div class="product-item">
             <ul> 
-                <li>
+                <li  @click="gotoAddress('/orderList')">
                     <img src="../../../static/images/icon/icon-11.png" />
                     <span>我的客户</span>
                 </li>
-                <li>
+                <li  @click="gotoAddress('')">
                     <img src="../../../static/images/icon/icon-9.png" />
                     <span>待办事项</span>
                 </li>
-                <li>
+                <li  @click="gotoAddress('/count')">
                     <img src="../../../static/images/icon/icon-10.png" />
-                    <span @click="gotoAddress('/count')">统计</span>
+                    <span>统计</span>
                 </li>
             </ul>
         </div>
@@ -37,13 +37,13 @@
         <transition name="router-slid" mode="out-in">
             <router-view></router-view> 
         </transition>
-        <foot name='首页'></foot>
+        <vue-foot name='首页'></vue-foot>
     </div>
 </template>
 
 <script>
     import headTop from '@/components/header/head'
-    import foot from '@/components/footer/foot'
+    import vueFoot from '@/components/footer/foot'
     import { Toast, MessageBox } from 'mint-ui'
     export default {
         name: 'product',
@@ -64,7 +64,7 @@
         },
         components: {
             'head-top': headTop,
-            'foot': foot
+            'vue-foot': vueFoot
         },
         methods: {
             gotoAddress (path) {
@@ -88,7 +88,7 @@
                                 MessageBox.confirm('您还未实名认证，请先进行实名认证！').then(action => {
                                     that.gotoAddress('/user-info/certigy')
                                 })
-                                var btnArr = ['取消', '去认证'];
+                                // var btnArr = ['取消', '去认证'];
                             }
                         } else {
                             Toast("抱歉，您没有权限");
