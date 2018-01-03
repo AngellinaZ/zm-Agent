@@ -1,22 +1,24 @@
 <template>
-    <div class='sysNotice msg childPage' v-cloak>
-        <head-top head-title='系统公告' :go-back='true'></head-top>
-        <div class="list scroll_container" id='scroll_section' v-show='messages.length > 0'>
-            <ul>
-                <li v-for="item in messages" @click='updataMsg(item)'>
-                    <p class="tit">
-                        <span class="notice"><em v-if= "item.status == 0"></em>{{ item.title }}</span>
-                        <span class="time">{{ item.messageDate }}</span>
+    <div class='active childPage' v-cloak>
+        <head-top head-title='激活用户' :go-back='true'></head-top>
+        <div class="list scroll_container" id='scroll_section' v-show='users.length > 0'>
+            <ul class="module">
+                <li v-for='item in users' :key='item.id'>
+                    <p>
+                        <span class="name">{{ item.name }}</span>
+                        <span class="idCard">{{ item.identityNo }}</span>
                     </p>
-                    <p :class="{con: currId == item.id, conOver : currId != item.id}">{{ item.context }}</p>
-                    <p class="detail" v-if='item.detailUrl' @click="orderDetail(item)">
-                        <span>查看详情</span>
-                        <i class="icon next"></i>
+                    <p>
+                        <span class="active" @click='actveUser(item)' v-if='item.status == 3'>激活</span>
+                        <span class="active" v-if='item.status == 1'>已激活</span>
+                        <span class="active" v-if='item.status == 0'>冻结</span>
+                        <span class="active" v-if='item.status == 2'>注销</span>
+                        <span class="mobile">{{ item.userCode }}</span>
                     </p>
                 </li>
             </ul>
         </div>
-        <div class="blankPage" v-if='messages.length < 1'>
+        <div class="blankPage" v-if='users.length < 1'>
             <img src="/static/images/pic/blankPage.png">
             <p>———— 暂无数据 ————</p>
         </div>
@@ -26,13 +28,12 @@
 <script>
     import headTop from '@/components/header/head'
     import BScroll from 'better-scroll'
-    import { Toast } from 'mint-ui'
+    import { Toast, MessageBox } from 'mint-ui'
     export default {
         name: 'sysNotice',
         data() {
             return {
-                messages: [],
-                currId: ""
+                users: ""
             }
         },
         components: {
@@ -42,66 +43,52 @@
             gotoAddress (path) {
                 this.$router.push(path);
             },
-            getMessage: function() {
+            init () {
                 var that = this;
                 this.$http({
                     method: 'post',
-                     url: this.HOST + '/message/user/getMessage.htm',
-                    params: {
-                        type: 3,
-                        sourceTypeId: 1
-                    }
+                    url: this.HOST + '/user/getToActiveUser.htm',
+                    params: {}
                 }).then(function (response) {
                     var datas = response.data;
                     if (datas.success) {
-                        that.messages = datas.data;
+                        that.users = datas.rows;
                     } else {
-                        if (datas.code == 'record_not_exsist') {
-                            that.messages = '';
-                        }
-                        // Toast(datas.resultMsg);
+                        // mui.toast(datas.resultMsg);
                     }
                 }).catch(function (error) {
-                    Toast(error);
+                    mui.toast(error);
                 })
             },
-            updataMsg: function (item) {
-                if (item.detailUrl == "") {
-                    this.currId = item.id;
-                }
-                if (item.detailUrl == "" && item.status == 0) {
-                    this.updateMessage(item);
-                }
-            },
-            updateMessage: function (item) {
+            actveUser (item) {
                 var that = this;
-                this.$http({
-                    method: 'post',
-                     url: this.HOST + '/message/user/updateMessage.htm',
-                    params: {
-                        id: item.id,
-                        status: 1
-                    }
-                }).then(function (response) {
-                    var data = response.data;
-                    if (data.success) {
-                        that.getMessage();
-                    } else {
-                        Toast(data.resultMsg);
-                    }
-                }).catch(function (error) {
-                    Toast(error);
+                MessageBox.confirm('是否激活用户？').then(action => {
+                    that.$http({
+                        method: 'post',
+                        url: that.HOST + '/user/activateUser.htm',
+                        params: {
+                            id: item.id,
+                            version: item.version
+                        }
+                    }).then(function (response) {
+                        var datas = response.data;
+                        if (datas.success) {
+                            that.init();
+                        } else {
+                            if (datas.code == 'record_not_exsist') {
+                                that.users = '';
+                            }
+                            mui.toast(datas.resultMsg);
+                        }
+                    }).catch(function (error) {
+                        mui.toast(error);
+                    })
                 })
-            },
-            orderDetail:function (item) {
-                // let path = '/orders/detail'
-                // this.gotoAddress(path + "?id="+ item.loanApplyId);
-                this.gotoAddress(item.detailUrl + "?id="+ item.loanApplyId);
             }
         },
         created () {
             this.$nextTick(function () {
-                this.getMessage();
+                this.init();
             })
         },
         mounted () {

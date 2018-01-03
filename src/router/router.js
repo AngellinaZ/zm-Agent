@@ -24,6 +24,14 @@ const monthlyOver = r => require.ensure([], () => r(require('../page/msg/childre
 
 const service = r => require.ensure([], () => r(require('../page/service/service')), 'service')
 const operationGuide = r => require.ensure([], () => r(require('../page/service/children/operationGuide')), 'operationGuide')
+const operationGuideDetail = r => require.ensure([], () => r(require('../page/service/children/operationGuideDetail')), 'operationGuideDetail')
+const bill = r => require.ensure([], () => r(require('../page/service/children/bill')), 'bill')
+const bankCard = r => require.ensure([], () => r(require('../page/service/children/bankCard')), 'bankCard')
+const bankCardInfo = r => require.ensure([], () => r(require('../page/service/children/bankCardInfo')), 'bankCardInfo')
+const activeUser = r => require.ensure([], () => r(require('../page/service/children/activeUser')), 'activeUser')
+const my = r => require.ensure([], () => r(require('../page/service/children/my')), 'my')
+const zmInfo = r => require.ensure([], () => r(require('../page/service/children/zmInfo')), 'zmInfo')
+
 
 
 //路由配置 -- 路由嵌套
@@ -158,7 +166,54 @@ export default [  //顶层路由,对应app.vue
             {
                 path: 'operationGuide',
                 name: 'operationGuide',
-                component: operationGuide
+                component: operationGuide,
+                children: [
+                    //详细
+                    {
+                        path: 'operationGuideDetail',
+                        name: 'operationGuideDetail',
+                        component: operationGuideDetail
+                    }
+                ]
+            },
+            //账单
+            {
+                path: 'bill',
+                name: 'bill',
+                component: bill
+            },
+            //银行卡
+            {
+                path: 'bankCard',
+                name: 'bankCard',
+                component: bankCard,
+                children: [
+                    {
+                        path: 'bankCardInfo',
+                        name: 'bankCardInfo',
+                        component: bankCardInfo
+                    }
+                ]
+            },
+            //激活用户 
+            {
+                path: 'activeUser',
+                name: 'activeUser',
+                component: activeUser
+            },
+            //我的
+            {
+                path: 'my',
+                name: 'my',
+                component: my,
+                children: [
+                    //关于中茗
+                    {
+                        path: 'zmInfo',
+                        name: 'zmInfo',
+                        component: zmInfo
+                    }
+                ]
             }
         ]
     }

@@ -56,6 +56,9 @@
             </ul>
         </section>
         <vue-foot name='服务'></vue-foot>
+        <transition name='router-slid' mode='out-in'>
+            <router-view></router-view>
+        </transition>
     </div>
 </template>
 

@@ -1,138 +1,132 @@
 <template>
-    <div class='monthly childPage' v-cloak>
-        <head-top head-title='月成交单' :go-back='true'></head-top>
-        <section class="total"> 
-            <div>
-                <h3>{{ year }}年{{ month }}月 成交单</h3>
-                <p>统计周期：{{ month }}月1日~{{ month }}月{{ date }}日</p>
-            </div>
-            <ul class="tit">
-                <li>业务</li>
-                <li>申请(单)</li>
-                <li>成交(单)</li>
-            </ul>
-            <ul class="con">
-                <li>贷款</li>
-                <li>{{ totalOrderNum }}</li>
-                <li>{{ toatlDealNum }}</li>
-            </ul>
+    <div class='user childPage' v-cloak>
+        <head-top head-title='我的' :go-back='true'></head-top>
+        <section class="info">
+            <img src="/static/images/pic/pic.png" />
+            <p> 
+                <span v-if="userName == ''">未实名</span>
+                <span v-else>{{ userName }} <img src="/static/images/svg/my-1.svg"></span>
+                <span>{{ mobile }}</span>
+            </p>
         </section>
-
-        <section class="list module">
-            <p class="tit">以下是您在上月成交的订单</p>
-            <ul>
-                <li v-for="(item,index) in list">
-                    <p><span>{{ index + 1 }}</span>{{ item.custName }}，{{ item.loanAmount | filterPrice }}万/{{ item.debitPeriod }}期</p>
-                    <time>{{ item.paymentTime.time | filterTime }}</time>
+        <section class="module">
+            <ul class="module-list">
+                <li v-if="userName == ''" @click="gotoAddress('../user-info/certify.html')">   
+                    <span>实名认证</span>
+                    <em >未实名<img src="/static/images/svg/next.svg"></em>
+                </li>
+                <li v-if="userName != ''">  
+                    <span>实名认证</span>
+                    <em class="certify"><img src="/static/images/svg/my-2.svg">已实名</em>
+                </li>
+                <li @click="gotoAddress('find-pwd')" >
+                    <span>修改登录密码</span>
+                    <em><img src="/static/images/svg/next.svg"></em>
+                </li>
+                <li v-if="payPwd == ''" @click="setPayPsd('../payPwd/set-pwd0.html')">
+                    <span>设置交易密码</span>
+                    <em><img src="/static/images/svg/next.svg"></em>
+                </li>
+                <li v-if="payPwd != ''" @click="gotoAddress('../payPwd/revise-pwd0.html')">
+                    <span>修改交易密码</span>
+                    <em><img src="/static/images/svg/next.svg"></em>
+                </li>
+                <li v-if="payPwd != ''" @click="gotoAddress('../payPwd/find-pwd0.html')">
+                    <span>找回交易密码</span>
+                    <em><img src="/static/images/svg/next.svg"></em>
+                </li>
+                <li @click="gotoAddress('my/zmInfo')">
+                    <span>关于中茗</span>
+                    <em><img src="/static/images/svg/next.svg"></em>
                 </li>
             </ul>
-            <p class="notice">统计可能有偏差，以实际结算为准。</br>感谢您对中茗的谅解</p>
         </section>
+        <section class="module last">
+            <p @click="sureLgOut">
+                退出当前账号
+            </p>
+        </section>
+        <transition name='router-slid' mode='out-in'>
+            <router-view></router-view>
+        </transition>
     </div>
 </template>
 
 <script>
     import headTop from '@/components/header/head'
-    import BScroll from 'better-scroll'
-    import { Toast } from 'mint-ui'
-    import { formatDay, getQueryString } from '@/js/common'
+    import { Toast, MessageBox } from 'mint-ui'
     export default {
-        name: 'monthlyOver',
+        name: 'my',
         data() {
             return {
-                totalOrderNum: "",
-                toatlDealNum: "",
-                list: "",
-                year: "",
-                month: "",
-                date: "",
+                userName: "",
+                mobile: "",
+                payPwd: ""
             }
         },
         components: {
             'head-top':headTop
         },
         methods: {
-            init (type) {
-                var monthy = getQueryString("monthly");
-                this.year = monthy.substring(0,4);
-                this.month = monthy.substring(4,6);
-                
-                if (this.month == 4 || this.month == 6 || this.month == 9 || this.month == 11) {
-                    this.date = '30';
-                } else if (this.month == 2) {
-                    if ((this.year % 4 == 0 && this.year % 100 == 0) || this.year % 400 == 0) { //判断是否是闰年
-                        this.date = '29';
-                    } else {
-                        this.date = '28';
-                    }
-                } else {
-                    this.date = '31';
-                }
-                
-                this.getMonthlyTurnOver(monthy);
-                this.getDealDetail(monthy);
+            gotoAddress (path) {
+                this.$router.push(path);
             },
-            getMonthlyTurnOver(monthy) {
-                var that = this;
-                this.$http({
-                    method: 'post',
-                    url: this.HOST + '/agentOrderCount/user/getMonthlyTurnOver.htm',
-                    params: {
-                        monthy: monthy
-                    }
-                }).then(function (response) {
-                    var datas = response.data;
-                    if (datas.success) {
-                        that.totalOrderNum = datas.data.totalOrderNum;
-                        that.toatlDealNum = datas.data.toatlDealNum;
-                    } else {
-                        // Toast(datas.resultMsg);
-                    }
-                }).catch(function (error) {
-                    Toast(error);
-                })
-            },
-            getDealDetail (monthy) {
-                var that = this;
-                this.$http({
-                    method: 'post',
-                    url: this.HOST + '/agentOrderCount/user/getDealDetail.htm',
-                    params: {
-                        monthy: monthy
-                    }
-                }).then(function (response) {
-                    var datas = response.data;
-                    if (datas.success) {
-                        that.list = datas.data;
-                    } else {
-                        // Toast(datas.resultMsg);
-                    }
-                }).catch(function (error) {
-                    Toast(error);
-                })
+            setPayPsd (url) {
+                if (!this.identityNo && !this.userName) {
 
-            }
-        },
-        filters:{
-            filterPrice (price) {
-                return  price/10000;
+                    MessageBox.confirm('您还未实名认证，请先进行实名认证！').then(action => {
+                        this.gotoAddress("/service/certigy");
+                    })
+                } else {
+                    this.gotoAddress(url);
+                }
             },
-            filterTime (time) {
-                return formatDay(time, 'MM-dd');
+            init () {
+                var that = this;
+                this.$http({
+                    method: 'post',
+                    url: this.HOST + '/userMerchant/user/getUserInfoSum.htm',
+                    params: {
+                        isChoose: 1
+                    }
+                }).then(function (response) {
+                    var datas = response.data;
+                    if (datas.success) {
+                        that.userName = datas.data[0].name;
+                        that.mobile = datas.data[0].userCode;
+                        that.payPwd = datas.data[0].payPwd;
+                        that.identityNo = datas.data[0].identityNo;
+                    } else {
+                        // Toast(datas.resultMsg);
+                    }
+                }).catch(function (error) {
+                    Toast(error);
+                });
+            },
+            sureLgOut () {
+                var that = this;
+                MessageBox.confirm('确认退出？').then(action => {
+                    that.$http({
+                        method: 'get',
+                         url: that.HOST + '/j_spring_security_logout',
+                        params: {}
+                    }).then(function (response) {
+                       if (response.data.code == 405) {
+                            localStorage.clear();
+                            that.gotoAddress("/login");
+                       } else {
+                            // Toast(resultMsg);
+                       }
+                    }).catch(function (error) {
+                        Toast(error);
+                    });
+                }) 
             }
         },
         created () {
             this.$nextTick(function () {
                 this.init();
             })
-        },
-        mounted () {
-            new BScroll('#scroll_section', {  
-                deceleration: 0.001,
-                bounce: true,
-                swipeTime: 1800,
-                click: true,
-            }); 
         }
     }
 </script>

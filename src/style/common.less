@@ -669,9 +669,11 @@ select {
     * user （我的）
 **/
 .user {
+    background: @color-bg;
+
     .info {
         background: #fff;
-        height: unit(280/50, rem);
+        height: unit(200/50, rem);
         display: flex;
         align-items: center;
         color: #fff;
@@ -2225,18 +2227,28 @@ select {
     *操作指导
 */
 .queList {
+    background: @color-bg;
 
-    p {
-        height: unit(80/50, rem);
-        line-height: unit(80/50, rem);
-        padding-left: unit(30/50, rem);
-        color: @color-title;
-        background: #fff;
-        border-bottom: 1px solid @color-line;
-    }
-    li {
-        span {
-            color: @color-describe;
+    .que {
+        p {
+            height: unit(80/50, rem);
+            line-height: unit(80/50, rem);
+            padding-left: unit(30/50, rem);
+            color: @color-title;
+            background: #fff;
+            border-bottom: 1px solid @color-line;
+        }
+        li {
+            padding: 5px 0;
+
+            span {
+                color: @color-describe;
+                flex: 9;
+                .f-s(unit(28/50,rem));
+            }
+            em {
+                flex: 1;
+            }
         }
     }
 }
@@ -2245,8 +2257,9 @@ select {
    *操作指导详细
 */
 .rule {
+    background: @color-bg;
 
-    section {
+    .detail {
 
         div {
             padding: 0 unit(30/50, rem);
@@ -2257,6 +2270,7 @@ select {
             color: @color-title;
             margin-bottom: unit(25/50, rem);
             font-weight: bolder;
+            padding: unit(15/50, rem);
         }
         span {
             .f-s(unit(28/50, rem));
@@ -2283,8 +2297,9 @@ select {
     *关于中茗
 */
 .zmInfo {
+    background: @color-bg;
 
-    section {
+    .logo {
         display: flex;
         flex-direction: column;
         align-items: center;
@@ -2445,6 +2460,7 @@ select {
     *我的账单
 */
 .myBill {
+    background: @color-bg;
 
     li {
         height: unit(120/50, rem);
@@ -2685,6 +2701,7 @@ select {
     *银行卡
 */
 .bankCard {
+    background: @color-bg;
 
     p {
         height: unit(70/50, rem);
@@ -2699,7 +2716,7 @@ select {
     }
     div {
         height: unit(200/50, rem);
-        width: unit(690/50, rem);
+        width: unit(730/50, rem);
         display: flex;
         background: #fff;
         border-radius: 3px;
@@ -2760,9 +2777,27 @@ select {
 }
 
 /*
+    *银行卡信息填写
+*/
+.bankCardInfo {
+    background: @color-bg !important;
+    height: auto !important;
+    width: auto !important;
+    display: block !important;
+
+    section {
+        p {
+            background: @color-bg;
+            width: 100%;
+        }
+    }
+}
+
+/*
     *激活用户
 */
 .active {
+    background: @color-bg;
 
     ul li{
         display: flex;
