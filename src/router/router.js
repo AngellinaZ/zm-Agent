@@ -31,7 +31,13 @@ const bankCardInfo = r => require.ensure([], () => r(require('../page/service/ch
 const activeUser = r => require.ensure([], () => r(require('../page/service/children/activeUser')), 'activeUser')
 const my = r => require.ensure([], () => r(require('../page/service/children/my')), 'my')
 const zmInfo = r => require.ensure([], () => r(require('../page/service/children/zmInfo')), 'zmInfo')
-
+const fixTraderPwd = r => require.ensure([], () => r(require('../page/service/children/fixTraderPwd')), 'fixTraderPwd')
+const fixTraderPwd1 = r => require.ensure([], () => r(require('../page/service/children/fixTraderPwd1')), 'fixTraderPwd1')
+const setTraderPwd = r => require.ensure([], () => r(require('../page/service/children/setTraderPwd')), 'setTraderPwd')
+const setTraderPwd1 = r => require.ensure([], () => r(require('../page/service/children/setTraderPwd1')), 'setTraderPwd1')
+const findTraderPwd = r => require.ensure([], () => r(require('../page/service/children/findTraderPwd')), 'findTraderPwd')
+const findTraderPwd1 = r => require.ensure([], () => r(require('../page/service/children/findTraderPwd1')), 'findTraderPwd1')
+const certify = r => require.ensure([], () => r(require('../page/service/children/certify')), 'certify')
 
 
 //路由配置 -- 路由嵌套
@@ -212,6 +218,51 @@ export default [  //顶层路由,对应app.vue
                         path: 'zmInfo',
                         name: 'zmInfo',
                         component: zmInfo
+                    },
+                    //修改交易密码
+                    {
+                        path: 'fixTraderPwd',
+                        name: 'fixTraderPwd',
+                        component: fixTraderPwd,
+                        children: [
+                            {
+                                path: 'fixTraderPwd1',
+                                name: 'fixTraderPwd1',
+                                component: fixTraderPwd1
+                            }
+                        ]
+                    },
+                    //设置交易密码
+                    {
+                        path: 'setTraderPwd',
+                        name: 'setTraderPwd',
+                        component: setTraderPwd,
+                        children: [
+                            {
+                                path: 'setTraderPwd1',
+                                name: 'setTraderPwd1',
+                                component: setTraderPwd1
+                            }
+                        ]
+                    },
+                     //找回交易密码
+                    {
+                        path: 'findTraderPwd',
+                        name: 'findTraderPwd',
+                        component: findTraderPwd,
+                        children: [
+                            {
+                                path: 'findTraderPwd1',
+                                name: 'findTraderPwd1',
+                                component: findTraderPwd1
+                            }
+                        ]
+                    },
+                    //实名认证
+                    {
+                        path: 'certify',
+                        name: 'certify',
+                        component: certify
                     }
                 ]
             }

@@ -19,20 +19,20 @@
                     <span>实名认证</span>
                     <em class="certify"><img src="/static/images/svg/my-2.svg">已实名</em>
                 </li>
-                <li @click="gotoAddress('find-pwd')" >
+                <li @click="gotoAddress('/pwd')" >
                     <span>修改登录密码</span>
                     <em><img src="/static/images/svg/next.svg"></em>
                 </li>
-                <li v-if="payPwd == ''" @click="setPayPsd('../payPwd/set-pwd0.html')">
+                <li v-if="!payPwd" @click="setPayPsd('my/setTraderPwd')">
                     <span>设置交易密码</span>
                     <em><img src="/static/images/svg/next.svg"></em>
                 </li>
-                <li v-if="payPwd != ''" @click="gotoAddress('../payPwd/revise-pwd0.html')">
+                <li v-if="payPwd" @click="gotoAddress('my/fixTraderPwd')"> 
                     <span>修改交易密码</span>
                     <em><img src="/static/images/svg/next.svg"></em>
                 </li>
-                <li v-if="payPwd != ''" @click="gotoAddress('../payPwd/find-pwd0.html')">
-                    <span>找回交易密码</span>
+                <li v-if="payPwd" @click="gotoAddress('my/findTraderPwd')">
+                    <span>找回交易密码</span> 
                     <em><img src="/static/images/svg/next.svg"></em>
                 </li>
                 <li @click="gotoAddress('my/zmInfo')">
@@ -71,16 +71,6 @@
             gotoAddress (path) {
                 this.$router.push(path);
             },
-            setPayPsd (url) {
-                if (!this.identityNo && !this.userName) {
-
-                    MessageBox.confirm('您还未实名认证，请先进行实名认证！').then(action => {
-                        this.gotoAddress("/service/certigy");
-                    })
-                } else {
-                    this.gotoAddress(url);
-                }
-            },
             init () {
                 var that = this;
                 this.$http({
@@ -97,11 +87,20 @@
                         that.payPwd = datas.data[0].payPwd;
                         that.identityNo = datas.data[0].identityNo;
                     } else {
-                        // Toast(datas.resultMsg);
+                        Toast(datas.resultMsg);
                     }
                 }).catch(function (error) {
                     Toast(error);
                 });
+            },
+            setPayPsd (url) {
+                if (!this.identityNo && !this.userName) {
+                    MessageBox.confirm('您还未实名认证，请先进行实名认证！').then(action => {
+                        this.gotoAddress("/service/certigy");
+                    })
+                } else {
+                    this.gotoAddress(url);
+                }
             },
             sureLgOut () {
                 var that = this;

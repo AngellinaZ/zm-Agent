@@ -1,6 +1,6 @@
 <template>
     <div class='reg'>
-        <head-top head-title='忘记密码' go-back='true'></head-top>
+        <head-top head-title='忘记密码' :go-back='true'></head-top>
         <div class="module con">
             <button :class="{'getCode': true, 'btn-disabled': isDisabled}" :disabled='isDisabled' @click="sendMobilecode">{{ message }}</button>
             <input class="input" type="tel" maxlength="11" placeholder="请输入手机号" v-model="mobile">
@@ -38,11 +38,14 @@
             }
         },
         methods: {
-            submit:function () {
+            init () {
+                this.mobile = JSON.parse(localStorage.getItem('user')).mobile;
+            },
+            submit () {
                 var that = this;
                 this.$http({
                     method: 'post',
-                     url: this.HOST + '/findPassword/checkCode.htm',
+                    url: this.HOST + '/findPassword/checkCode.htm',
                     params: {
                         mobile: that.mobile,
                         checkcode: that.checkcode
@@ -58,11 +61,11 @@
                     Toast(error);
                 })
             },
-            sendMobilecode:function () {
+            sendMobilecode () {
                 var that = this;
                 this.$http({
                     method: 'post',
-                     url: this.HOST + '/findPassword/sendFindPwdCode.htm',
+                    url: this.HOST + '/findPassword/sendFindPwdCode.htm',
                     params: {
                         mobile: that.mobile,
                         type: 2
@@ -92,6 +95,9 @@
             }
         },
         created(){
+            this.$nextTick(() => {
+                this.init();
+            })
         }
     }
 </script>
