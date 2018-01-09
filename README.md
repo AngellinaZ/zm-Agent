@@ -6,7 +6,7 @@
 
 ``` bash
 # 克隆到本地
-git clone 
+git clone git@github.com:AngellinaZ/zm-Agent.git
 
 # 初始化
 npm install
