@@ -2655,14 +2655,16 @@ select {
     *计算器
 */
 .clac {
+    background: @color-bg;
 
     .condition {
         padding-top: 0;
-        margin-top: unit(120/50, rem);
+        margin-top: unit(30/50, rem);
 
         select {
             border: none;
             margin-right: unit(30/50, rem);
+            direction: rtl;
         }
     }
     .clacPrice {
@@ -2682,6 +2684,7 @@ select {
     *计算结果
 */
 .clacResult {
+    background: @color-bg;
 
     .tit {
         color: @color-title;

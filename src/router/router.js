@@ -31,6 +31,8 @@ const bankCardInfo = r => require.ensure([], () => r(require('../page/service/ch
 const activeUser = r => require.ensure([], () => r(require('../page/service/children/activeUser')), 'activeUser')
 const my = r => require.ensure([], () => r(require('../page/service/children/my')), 'my')
 const zmInfo = r => require.ensure([], () => r(require('../page/service/children/zmInfo')), 'zmInfo')
+const clac = r => require.ensure([], () => r(require('../page/service/children/clac')), 'clac')
+const clacResult = r => require.ensure([], () => r(require('../page/service/children/clacResult')), 'clacResult')
 const fixTraderPwd = r => require.ensure([], () => r(require('../page/service/children/fixTraderPwd')), 'fixTraderPwd')
 const fixTraderPwd1 = r => require.ensure([], () => r(require('../page/service/children/fixTraderPwd1')), 'fixTraderPwd1')
 const setTraderPwd = r => require.ensure([], () => r(require('../page/service/children/setTraderPwd')), 'setTraderPwd')
@@ -198,6 +200,19 @@ export default [  //顶层路由,对应app.vue
                         path: 'bankCardInfo',
                         name: 'bankCardInfo',
                         component: bankCardInfo
+                    }
+                ]
+            },
+            // 计算器
+            {       
+                path: 'clac',
+                name: 'clac',
+                component: clac,
+                children: [
+                    {
+                        path: 'clacResult',
+                        name: 'clacResult',
+                        component: clacResult
                     }
                 ]
             },

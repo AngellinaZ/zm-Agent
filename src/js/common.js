@@ -179,7 +179,23 @@ function getWebStatus(webStatus) {
     return status;
 }
 
-export { 
+
+/**
+* formatNum
+**/
+function formatNum(str, size, delimiter) {
+    var _str = str.toString();
+    var _size = size || 3,
+        _delimiter = delimiter || ',';
+
+    var regText = '\\d{1,}' + _size + '}(\\d{' + _size + '})+$';
+    var reg = new RegExp(regText, 'g');
+    return _str.replace(/^(-?)(\d+)((\.\d+)?)$/, function ($0, $1, $2, $3) {
+        return $1 + $2.replace(reg, '$&,') + $3;
+    })
+}
+
+export {    
     mobileValidate, 
     pwdValidate,
     getQueryString,
