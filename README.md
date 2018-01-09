@@ -19,7 +19,31 @@ npm run build
 ```
 
 ## 路由配置
-
+[路由]()
+```
+export default [  //顶层路由,对应app.vue
+    //登录
+    {
+        path: '/login',
+        name: 'login',
+        component: login
+    },
+    //忘记密码
+    {
+        path: '/pwd',   
+        name: 'pwd',
+        component: pwd,
+        children: [
+            //重置密码
+            {
+                path: 'rest',   
+                name: 'rest', 
+                component: rest
+            },
+        ]
+    }
+]
+```
 ## vue挂载
 
 
