@@ -1,18 +1,25 @@
-# zm-agent 
+# 简介
 
 > A Vue.js project 单页面应用程序
 
 ## Build Setup
 
 ``` bash
-# install dependencies 
+# 克隆到本地
+git clone 
+
+# 初始化
 npm install
 
-# serve with hot reload at localhost:8080
+# 打开 localhost:8080
 npm run dev
 
-# build for production with minification
+# 发布
 npm run build
 ```
 
-For a detailed explanation on how things work, check out the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
+## 路由配置
+
+## vue挂载
+
+
