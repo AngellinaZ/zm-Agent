@@ -15,6 +15,7 @@ const totalIncomplete = r => require.ensure([], () => r(require('../page/count/c
 const totalMortgage = r => require.ensure([], () => r(require('../page/count/children/totalMortgage')), 'totalMortgage')
 
 const orderList = r => require.ensure([], () => r(require('../page/orders/orderList')), 'orderList')
+const orderDetail = r => require.ensure([], () => r(require('../page/orders/children/orderDetail')), 'orderDetail')
 
 const msg = r => require.ensure([], () => r(require('../page/msg/msgClassify')), 'msg')
 const toDoList = r => require.ensure([], () => r(require('../page/msg/children/toDoList')), 'toDoList')
@@ -128,7 +129,14 @@ export default [  //顶层路由,对应app.vue
     {
         path: '/orderList',
         name: 'orderList',
-        component: orderList
+        component: orderList,
+        children: [
+            {
+                path: 'orderDetail',
+                name: 'orderDetail',
+                component: orderDetail
+            }
+        ]
     },
     //消息
     {
