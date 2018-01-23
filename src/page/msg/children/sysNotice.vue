@@ -94,9 +94,9 @@
                 })
             },
             orderDetail:function (item) {
-                // let path = '/orders/detail'
+                let path = '/orderList/orderDetail'
                 // this.gotoAddress(path + "?id="+ item.loanApplyId);
-                this.gotoAddress(item.detailUrl + "?id="+ item.loanApplyId);
+                this.gotoAddress(path + "?id="+ item.loanApplyId);
             }
         },
         created () {

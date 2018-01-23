@@ -49,6 +49,9 @@
             <img src="/static/images/pic/blankPage.png">
             <p>———— 暂无记录 ————</p>
         </div>
+        <transition name="router-slid" mode="out-in">
+            <router-view></router-view> 
+        </transition>
         <vue-foot name='订单'></vue-foot>
     </div>
 </template>
@@ -212,7 +215,7 @@
                         }
                     }
                 }).catch(function (error) {
-                    mui.toast(error);
+                    Toast(error);
                 });
             },
             tabClick (webStatus, flag) {  //切换不同状态的订单
@@ -293,20 +296,19 @@
                         } else if (datas.code == '405') {
                             againLogin(orders.getMerchantLoanApply, params);
                         } else {
-                            mui.toast(datas.resultMsg);
+                            Toast(datas.resultMsg);
                         }
                     }
                 }).catch(function (error) {
-                    mui.toast(error);
+                    Toast(error);
                 });
             },
             SetLocalStorage (currRow) {
-                mySetLocalStorage('currRow', currRow);
+                localStorage.setItem('currRow', JSON.stringify(currRow));
                 if (currRow.webStatus == 500) {
-                    mySetLocalStorage("draftAddress","/tpl/orders/list.html");
-                    myOpenWindow('../product/apply.html?type=2', "");
+                    this.$router.push({path: '/product/apply?type=2'})
                 } else {
-                    myOpenWindow('../orders/detail.html', "");
+                    this.$router.push({path: '/orderList/orderDetail'})
                 }
             }
         },

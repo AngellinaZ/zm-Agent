@@ -55,6 +55,21 @@ function identification (num) {
     return type;
 }
 
+function formatCurrency1(num) {
+    var num = num.toString().replace(/\$|\,/g, '');
+    if (isNaN(num))
+        num = "0";
+    var sign = (num == (num = Math.abs(num))),
+        num = Math.floor(num * 100 + 0.50000000001),
+        cents = num % 100,
+        num = Math.floor(num / 100).toString();
+    if (cents < 10)
+        cents = "0" + cents;
+    for (let i = 0; i < Math.floor((num.length - (1 + i)) / 3); i++)
+        num = num.substring(0, num.length - (4 * i + 3)) + ',' + num.substring(num.length - (4 * i + 3));
+    return (((sign) ? '' : '-') + num);
+}
+
 /**
     * JS获取URL中参数值
     * param : 参数名
@@ -62,7 +77,7 @@ function identification (num) {
 **/
 function getQueryString (name) {
     var reg = new RegExp('(^|&)' + name + '=([^&]*)(&|$)', 'i');
-    var r = window.location.hash.substr(1).match(reg);
+    var r = window.location.search.substr(1).match(reg);
     if (r != null) {
         return unescape(r[2]);
     }
@@ -201,5 +216,6 @@ export {
     getQueryString,
     identification,
     getWebStatus,
-    formatDay
+    formatDay,
+    formatCurrency1
 }

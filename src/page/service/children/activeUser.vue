@@ -1,5 +1,5 @@
 <template>
-    <div class='active childPage' v-cloak>
+    <div class='activeUser childPage' v-cloak>
         <head-top head-title='激活用户' :go-back='true'></head-top>
         <div class="list scroll_container" id='scroll_section' v-show='users.length > 0'>
             <ul class="module">
@@ -30,7 +30,7 @@
     import BScroll from 'better-scroll'
     import { Toast, MessageBox } from 'mint-ui'
     export default {
-        name: 'sysNotice',
+        name: 'activeUser',
         data() {
             return {
                 users: ""

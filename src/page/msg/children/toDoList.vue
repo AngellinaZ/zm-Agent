@@ -107,7 +107,7 @@
                 }
                 if (item.detailUrl) {
                     localStorage.setItem('handleResult', item.handleResult);
-                    let path = '/orders/detail'
+                    let path = '/orderList/orderDetail'
                     this.gotoAddress(path + "?id="+ item.loanApplyId);
                 }
             }

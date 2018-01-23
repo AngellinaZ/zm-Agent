@@ -108,7 +108,7 @@
                     if (item.detailUrl.indexOf("hangMakeup") && item.handleResult == 1) {
                         mui.toast("数据已提交，无法查看");
                     } else {
-                        let path = '/orders/detail'
+                        let path = '/orderList/orderDetail'
                         this.gotoAddress(path + "?id="+ item.loanApplyId);
                     }
                 }

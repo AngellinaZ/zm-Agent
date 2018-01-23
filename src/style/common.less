@@ -41,6 +41,15 @@ a, a:active, a:hover, a:focus {
     text-decoration: none;
     color: @color-main;
 }
+select {
+    direction: rtl;
+    background: transparent;
+}
+button {
+    background: transparent;
+    border: none;
+    color: #fff;
+}
 input:focus, select:focus, textarea:focus, button:focus{
     outline: none;
 }
@@ -1238,6 +1247,7 @@ select {
     * 订单详情
 **/
 .orderDetail {
+    background: @color-bg;
 
     .list {
         .f-s(unit(28/50, rem));
@@ -1245,7 +1255,7 @@ select {
         color: @color-text;
 
         .topArea {
-            width: unit(730/50, rem);
+            width: unit(760/50, rem);
             margin: 0 auto;
             margin-top: unit(30/50, rem);
             background: #fff;
@@ -1794,6 +1804,8 @@ select {
     * upload (图片上传)
 **/
 .upload {
+    background: @color-bg;
+
     p {
         padding-bottom: unit(20/50, rem);
         padding-left: unit(30/50, rem);
@@ -1886,7 +1898,7 @@ select {
             width: unit(250/50, rem);
 
             i {
-                background: url("../../static/images/svg/explain.svg") no-repeat center center;
+                background: url("/static/images/svg/explain.svg") no-repeat center center;
             }
         }
     }
@@ -1920,6 +1932,7 @@ select {
                 padding: unit(30/50, rem);
                 .f-s(unit(28/50, rem));
                 color: @color-describe;
+                margin: 0;
 
                 b {
                     .f-s(unit(32/50, rem));
@@ -2804,7 +2817,7 @@ select {
 /*
     *激活用户
 */
-.active {
+.activeUser {
     background: @color-bg;
 
     ul li{
@@ -2850,7 +2863,8 @@ select {
 /*
     *沟通单
 */
-.conSheet {
+.comSheet {
+    background: @color-bg;
 
     .userInfo {
         background: #fff;
@@ -2939,6 +2953,7 @@ select {
     *更换银行
 */
 .changeBank {
+    background: @color-bg;
 
     .module-20 {
         .f-s(unit(32/50, rem));

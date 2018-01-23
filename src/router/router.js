@@ -16,6 +16,11 @@ const totalMortgage = r => require.ensure([], () => r(require('../page/count/chi
 
 const orderList = r => require.ensure([], () => r(require('../page/orders/orderList')), 'orderList')
 const orderDetail = r => require.ensure([], () => r(require('../page/orders/children/orderDetail')), 'orderDetail')
+const upload = r => require.ensure([], () => r(require('../page/orders/children/upload')), 'upload')
+const changeBank = r => require.ensure([], () => r(require('../page/orders/children/changeBank')), 'changeBank')
+const comSheet = r => require.ensure([], () => r(require('../page/orders/children/comSheet')), 'comSheet')
+const comSheetDetail = r => require.ensure([], () => r(require('../page/orders/children/comSheetDetail')), 'comSheetDetail')
+const orderBill = r => require.ensure([], () => r(require('../page/orders/children/orderBill')), 'orderBill')
 
 const msg = r => require.ensure([], () => r(require('../page/msg/msgClassify')), 'msg')
 const toDoList = r => require.ensure([], () => r(require('../page/msg/children/toDoList')), 'toDoList')
@@ -135,6 +140,36 @@ export default [  //顶层路由,对应app.vue
                 path: 'orderDetail',
                 name: 'orderDetail',
                 component: orderDetail
+            },
+            //资料上传
+            {
+                path: 'upload',
+                name: 'upload',
+                component: upload
+            },
+            //更换银行
+            {
+                path: 'changeBank',
+                name: 'changeBank',
+                component: changeBank
+            },
+            //沟通单
+            {
+                path: 'comSheet',
+                name: 'comSheet',
+                component: comSheet
+            },
+            //沟通单详情
+            {
+                path: 'comSheetDetail',
+                name: 'comSheetDetail',
+                component: comSheetDetail
+            },
+            //账单
+            {
+                path: 'orderBill',
+                name: 'orderBill',
+                component: orderBill
             }
         ]
     },
